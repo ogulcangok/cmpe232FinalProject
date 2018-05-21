@@ -29,7 +29,7 @@ public class Stack<Item> implements Iterable<Item> {
 
 	// helper linked list class
 	private static class Node<Item> {
-		private Item item;
+		private DirectedEdge item;
 		private Node<Item> next;
 	}
 
@@ -62,13 +62,13 @@ public class Stack<Item> implements Iterable<Item> {
 	/**
 	 * Adds the item to this stack.
 	 *
-	 * @param item
+	 * @param e
 	 *            the item to add
 	 */
-	public void push(Item item) {
+	public void push(DirectedEdge e) {
 		Node<Item> oldfirst = first;
 		first = new Node<Item>();
-		first.item = item;
+		first.item = e;
 		first.next = oldfirst;
 		n++;
 	}
@@ -80,10 +80,10 @@ public class Stack<Item> implements Iterable<Item> {
 	 * @throws NoSuchElementException
 	 *             if this stack is empty
 	 */
-	public Item pop() {
+	public DirectedEdge pop() {
 		if (isEmpty())
 			throw new NoSuchElementException("Stack underflow");
-		Item item = first.item; // save item to return
+		DirectedEdge item = first.item; // save item to return
 		first = first.next; // delete first node
 		n--;
 		return item; // return the saved item
@@ -96,7 +96,7 @@ public class Stack<Item> implements Iterable<Item> {
 	 * @throws NoSuchElementException
 	 *             if this stack is empty
 	 */
-	public Item peek() {
+	public DirectedEdge peek() {
 		if (isEmpty())
 			throw new NoSuchElementException("Stack underflow");
 		return first.item;
@@ -147,9 +147,9 @@ public class Stack<Item> implements Iterable<Item> {
 		public Item next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
-			Item item = current.item;
+			DirectedEdge item = current.item;
 			current = current.next;
-			return item;
+			return (Item) item;
 		}
 	}
 

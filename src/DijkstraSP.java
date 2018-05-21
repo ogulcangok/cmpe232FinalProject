@@ -1,12 +1,12 @@
 
 public class DijkstraSP {
-	private Edge[] edgeTo;
+	private DirectedEdge[] edgeTo;
 	private double[] distTo;
 	private IndexMinPQ<Double> pq;
 
 
-	public DijkstraSP(EdgeWeightedGraph G, int s) {
-		edgeTo = new Edge[G.V()];
+	public DijkstraSP(EdgeWeightedDigraph G, int s) {
+		edgeTo = new DirectedEdge[G.V()];
 		distTo = new double[G.V()];
 		pq = new IndexMinPQ<>(G.V());
 
@@ -18,7 +18,7 @@ public class DijkstraSP {
 
 		while (!pq.isEmpty()) {
 			int v = pq.delMin();
-			for (Edge e : G.adj(v))
+			for (DirectedEdge e : G.adj(v))
 			{
 				relax(e, v);
 				
@@ -29,7 +29,7 @@ public class DijkstraSP {
 		
 	}
 
-	private void relax(Edge e, int v) {
+	private void relax(DirectedEdge e, int v) {
 		int w = e.other(v);
 		if (distTo[w] > distTo[v] + e.weight()) {
 			distTo[w] = distTo[v] + e.weight();
@@ -49,13 +49,13 @@ public class DijkstraSP {
 		return distTo[v] < Double.POSITIVE_INFINITY;
 	}
 
-	public Iterable<Edge> pathTo(int v) {
+	public Iterable<DirectedEdge> pathTo(int v) {
 		if (!hasPathTo(v))
 			return null;
-		Stack<Edge> path = new Stack<Edge>();
+		Iterable<DirectedEdge> path = new Stack<DirectedEdge>();
 		int x = v;
-		for (Edge e = edgeTo[v]; e != null; e = edgeTo[x]) {
-			path.push(e);
+		for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[x]) {
+			((Stack<DirectedEdge>) path).push(e);
 			x = e.other(x);
 		}
 		return path;
